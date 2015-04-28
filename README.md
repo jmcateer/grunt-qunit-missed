@@ -22,68 +22,39 @@ grunt.loadNpmTasks('grunt-qunit-missed');
 ### Overview
 In your project's Gruntfile, add a section named `qunit_missed` to the data object passed into `grunt.initConfig()`.
 
+### Options
 ```js
 grunt.initConfig({
-  qunit_missed: {
-    options: {
-      // Task-specific options go here.
+
+    qunit_missed: {
+        options: {
+            // Task-specific options go here.
+        },
+        all: {
+
+        }
     },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
-});
+})
 ```
 
 ### Options
 
-#### options.separator
+#### options.htmlReport
 Type: `String`
-Default value: `',  '`
 
-A string value that is used to do something with whatever.
+Specify where the location for the report to be located.
 
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
+#### options.fileNamer
+Type: `Function`
+Default value: `function (url) { return path.basename(url).replace(/\.html(.*)$/, ''); }`
 
-A string value that is used to do something else with whatever else.
+Specify a function that converts test URLs into destination filenames.  Note that filenames are automatically prefixed with 'TEST-' and given a '.xml' extension.  The default implementation uses the name of the HTML test-runner, discarding the query string.
 
-### Usage Examples
+#### options.classNamer
+Type `Function`
+Default value: `function (moduleName, url) { return moduleName.replace(/[\\|\/]/g, '.').replace(/\s+/g, '_'); }`
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
-```js
-grunt.initConfig({
-  qunit_missed: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
-
-```js
-grunt.initConfig({
-  qunit_missed: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+Specify a function that converts the supplied module name and URL into the value used in the report's 'classname' attribute.  Note that if the test did not belong to a module, the string `'global'` will be passed.  In order to be compliant, the function should ensure that the resulting value represents full classpaths as you might see in Java, such as `my.example.package.someFile` or `com.example.coolthings.Sorter`; the main restriction is that folders or packages must be separated by dots. These enable tools such as Jenkins to group the tests and provide an interface to drill down into the results.
 
 ## Release History
 _(Nothing yet)_

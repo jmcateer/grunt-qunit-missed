@@ -31,12 +31,11 @@ module.exports = function(grunt) {
     // Configuration to be run (and then tested).
     qunit_missed: {
       options: {
-        options: {
-          htmlReport: '<%= pkg.outputLocations.codeCoverageReports %>'
-        },
-        all:{
-          src: '<%= pkg.projectFiles.javascript %>'
-        }
+        htmlReport: '<%= pkg.outputLocations.codeCoverageReports %>',
+        teamName: "Reservation"
+      },
+      all:{
+        src: '<%= pkg.projectFiles.javascript %>'
       }
     },
 

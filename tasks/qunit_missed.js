@@ -84,7 +84,7 @@ module.exports = function(grunt) {
         htmlTemplate: "",
         htmlFile: "",
         teamName: "Not Set",
-        fileTD: "<tr>\n<td class=\"file {0}\" data-value=\"{1}\" style=\"text-align: left\">{2}</td>\n",
+        fileTD: "<tr>\n<td class=\"file {0}\" data-value=\"{1}\">{2}</td>\n",
         graphTD: "<td data-value=\"{0}\" class=\"pic {1}\"><span class=\"cover-fill\" style=\"width: {2}px;\"></span><span class=\"cover-empty\" style=\"width:{3}px;\"></span></td>\n</tr>",
 
         createTemplate: function() {
