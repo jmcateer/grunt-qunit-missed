@@ -1,6 +1,7 @@
 # grunt-qunit-missed
 
-> The best Grunt plugin ever.
+This plugin produces a html report of files which have code coverage and all the do not. The html report colors codes the file green or red based on if it was hit during a Istanbul coverage pass.
+The prerequisites for this plugin to function properly are that grunt-qunit-istanbul has been run and html reports have been generated.  This plugin will use that information to report files missed or have 0% coverage.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
@@ -22,6 +23,7 @@ grunt.loadNpmTasks('grunt-qunit-missed');
 ### Overview
 In your project's Gruntfile, add a section named `qunit_missed` to the data object passed into `grunt.initConfig()`.
 
+
 ### Options
 ```js
 grunt.initConfig({
@@ -41,20 +43,21 @@ grunt.initConfig({
 
 #### options.htmlReport
 Type: `String`
+No Default value
 
-Specify where the location for the report to be located.
+Specify where the location for the report to be located.  This should be the same location as your Istanbul html reports.  This location is used to find files with coverage as well as output location.
 
-#### options.fileNamer
-Type: `Function`
-Default value: `function (url) { return path.basename(url).replace(/\.html(.*)$/, ''); }`
+#### options.teamName
+Type: `String`
+Default value: ``
 
-Specify a function that converts test URLs into destination filenames.  Note that filenames are automatically prefixed with 'TEST-' and given a '.xml' extension.  The default implementation uses the name of the HTML test-runner, discarding the query string.
+Specify a name to be displayed at the head of the report.
 
-#### options.classNamer
-Type `Function`
-Default value: `function (moduleName, url) { return moduleName.replace(/[\\|\/]/g, '.').replace(/\s+/g, '_'); }`
+#### options.htmlTemplate
+Type `String`
+Default value: `"node_modules/grunt-qunit-missed/html/Template_Missing_File_Report.html"`
 
-Specify a function that converts the supplied module name and URL into the value used in the report's 'classname' attribute.  Note that if the test did not belong to a module, the string `'global'` will be passed.  In order to be compliant, the function should ensure that the resulting value represents full classpaths as you might see in Java, such as `my.example.package.someFile` or `com.example.coolthings.Sorter`; the main restriction is that folders or packages must be separated by dots. These enable tools such as Jenkins to group the tests and provide an interface to drill down into the results.
+Specify a templated file for the output of the results.
 
 ## Release History
 _(Nothing yet)_
