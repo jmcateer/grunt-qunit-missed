@@ -154,7 +154,7 @@ module.exports = function(grunt) {
 
             grunt.verbose.writeln("Contents of generated html report.");
             grunt.verbose.writeln(HtmlReportHelper.htmlFile);
-            var outputHtmlFile = options.htmlReport + "/JS_CodeCoverage_files_missed_Report.html"
+            var outputHtmlFile = options.htmlReport + "/JS_CodeCoverage_files_missed_Report.html";
             grunt.file.write(outputHtmlFile, HtmlReportHelper.htmlFile);
             grunt.log.writeln(">>\n>>\tReport Location: " + outputHtmlFile);
         }
