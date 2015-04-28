@@ -84,7 +84,6 @@ module.exports = function(grunt) {
         htmlTemplate: "",
         htmlFile: "",
         teamName: "Not Set",
-        percentCovered: 0,
         fileTD: "<tr>\n<td class=\"file {0}\" data-value=\"{1}\" style=\"text-align: left\">{2}</td>\n",
         graphTD: "<td data-value=\"{0}\" class=\"pic {1}\"><span class=\"cover-fill\" style=\"width: {2}px;\"></span><span class=\"cover-empty\" style=\"width:{3}px;\"></span></td>\n</tr>",
 
@@ -95,11 +94,14 @@ module.exports = function(grunt) {
             }
             this.htmlFile = grunt.file.read(this.htmlTemplate);
         },
-        setVariablesToTemplate: function(){
+        setVariablesToTemplate: function(percent, total, hit){
             this.htmlFile = this.htmlFile.replace("<!-- teamName -->", this.teamName);
-            this.htmlFile = this.htmlFile.replace("<!-- percentCovered -->", this.percentCovered);
 
-            var headerColor = this.percentCovered < 70 ? "low" : this.percentCovered < 90 ? "medium" : "high";
+            var headerText = "{0}%  ( {1} of {2} have some coverage )";
+            var totalFileStats =  String.format(headerText, percent, hit, total);
+            this.htmlFile = this.htmlFile.replace("<!-- percentCovered -->", totalFileStats);
+
+            var headerColor = percent < 70 ? "low" : percent < 90 ? "medium" : "high";
             this.htmlFile = this.htmlFile.replace("header UNSET", "header " + headerColor);
         },
         setTableRows: function(accordion) {
@@ -144,14 +146,10 @@ module.exports = function(grunt) {
             grunt.log.writeln(">>\tPercent: " + percent + "%");
 
             // generate html
-            var headerText = "{0}%  ( {1} of {2} have some coverage )";
-            var totalFileStats =  String.format(headerText, percent, hit, total);
-
             HtmlReportHelper.htmlTemplate = options.htmlTemplate;
             HtmlReportHelper.teamName = options.teamName;
-            HtmlReportHelper.percentCovered = percent;
             HtmlReportHelper.createTemplate();
-            HtmlReportHelper.setVariablesToTemplate();
+            HtmlReportHelper.setVariablesToTemplate(percent, total, hit);
             HtmlReportHelper.setTableRows(LoopHelper.accordion);
 
             grunt.verbose.writeln("Contents of generated html report.");
