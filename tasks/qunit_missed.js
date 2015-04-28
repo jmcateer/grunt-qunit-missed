@@ -8,6 +8,8 @@
 
 'use strict';
 
+var pathLib = require("path");
+
 module.exports = function(grunt) {
 
     // Please see the Grunt documentation for more information regarding task
@@ -60,7 +62,8 @@ module.exports = function(grunt) {
             for(var j = 0; j < hitFilesRaw.length; j++)
             {
                 var path = hitFilesRaw[j];
-                path = path.replace(".html", "").replace(outputLocation + "/scripts/", "");
+                path = path.replace(".html", "");
+                path = pathLib.basename(path);
                 this.hitFiles.push(path);
             }
             this.hit = this.hitFiles.length;
