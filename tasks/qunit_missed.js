@@ -34,7 +34,7 @@ module.exports = function(grunt) {
         hit: 0,
 
         setPaths: function(filesSrc){
-            grunt.verbose.writeln("------  setPaths");
+            grunt.verbose.debug("------  setPaths");
             if(filesSrc === undefined || filesSrc.length === 0) {
                 grunt.log.error("qunit_missed:  filesSrc not set");
             }
@@ -43,9 +43,9 @@ module.exports = function(grunt) {
         },
 
         initAccordionMap: function() {
-            grunt.verbose.writeln("------  initAccordionMap");
+            grunt.verbose.debug("------  initAccordionMap");
             if(this.paths === undefined || this.paths.length === 0) {
-                grunt.log.error("qunit_missed:  paths not set");
+                grunt.verbose.debug("qunit_missed:  paths not set");
                 return;
             }
             for(var i = 0; i < this.paths.length; i++)
@@ -55,7 +55,7 @@ module.exports = function(grunt) {
         },
 
         generateCoveredFilesList: function(outputLocation) {
-            grunt.verbose.writeln("------  generateCoveredFilesList");
+            grunt.verbose.debug("------  generateCoveredFilesList");
             // generate list of files with coverage based on instanbul reports.
             var configHit = [outputLocation + "/**/*.js.html"];
             var hitFilesRaw = grunt.file.expand(configHit);
@@ -155,8 +155,8 @@ module.exports = function(grunt) {
             HtmlReportHelper.setVariablesToTemplate(percent, total, hit);
             HtmlReportHelper.setTableRows(LoopHelper.accordion);
 
-            grunt.verbose.writeln("Contents of generated html report.");
-            grunt.verbose.writeln(HtmlReportHelper.htmlFile);
+            grunt.verbose.debug("Contents of generated html report.");
+            grunt.verbose.debug(HtmlReportHelper.htmlFile);
             var outputHtmlFile = options.htmlReport + "/JS_CodeCoverage_files_missed_Report.html";
             grunt.file.write(outputHtmlFile, HtmlReportHelper.htmlFile);
             grunt.log.writeln(">>\n>>\tReport Location: " + outputHtmlFile);
