@@ -45,7 +45,13 @@ grunt.initConfig({
 Type: `String`
 No Default value
 
-Specify where the location for the report to be located.  This should be the same location as your Istanbul html reports.  This location is used to find files with coverage as well as output location.
+Specify where the location of the Istanbul html reports.  This location is used to find files with coverage as well as output location.
+
+#### options.htmlResultLocation
+Type: `String`
+Default value: options.htmlReport
+
+Specify where the result html report should be placed.  The defalut location is the same directory given by the options.htmlReport.
 
 #### options.teamName
 Type: `String`
@@ -55,7 +61,7 @@ Specify a name to be displayed at the head of the report.
 
 #### options.htmlTemplate
 Type `String`
-Default value: `"node_modules/grunt-qunit-missed/html/Template_Missing_File_Report.html"`
+Default value: `node_modules/grunt-qunit-missed/html/Template_Missing_File_Report.html`
 
 Specify a templated file for the output of the results.
 
