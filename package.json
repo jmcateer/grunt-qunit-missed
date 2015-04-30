@@ -1,31 +1,35 @@
 {
-  "name": "grunt-qunit-missed",
-  "version": "0.1.15",
-  "private": false,
-  "scripts": {
-    "start": "node ./bin/www"
-  },
-  "dependencies": {
-    "body-parser": "~1.12.0",
-    "cookie-parser": "~1.3.4",
-    "debug": "~2.1.1",
-    "express": "~4.12.2",
-    "jade": "~1.9.2",
-    "morgan": "~1.5.1",
-    "serve-favicon": "~2.2.0"
-  },
-  "projectFiles": {
-    "javascript": [
-      "src/main/webapp/scripts/**/*.js",
-      "!src/main/webapp/scripts/jquery*.js",
-      "!src/main/webapp/scripts/google*.js",
-      "!src/main/webapp/scripts/uno/handlebar*.js",
-      "!src/test/webapp/scripts/*qunit*.js",
-      "!src/test/webapp/scripts/handlebar*.js",
-      "!src/main/webapp/scripts/libs/underscore.js"
-    ]
-  },
-  "outputLocations": {
-    "codeCoverageReports": "target/reports/coverage_reports"
-  }
+    "name": "grunt-qunit-missed",
+    "version": "0.1.15",
+    "private": false,
+    "scripts": {
+        "start": "node ./bin/www"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jmcateer/grunt-qunit-missed.git"
+    },
+    "dependencies": {
+        "body-parser": "~1.12.0",
+        "cookie-parser": "~1.3.4",
+        "debug": "~2.1.1",
+        "express": "~4.12.2",
+        "jade": "~1.9.2",
+        "morgan": "~1.5.1",
+        "serve-favicon": "~2.2.0"
+    },
+    "projectFiles": {
+        "javascript": [
+            "src/main/webapp/scripts/**/*.js",
+            "!src/main/webapp/scripts/jquery*.js",
+            "!src/main/webapp/scripts/google*.js",
+            "!src/main/webapp/scripts/uno/handlebar*.js",
+            "!src/test/webapp/scripts/*qunit*.js",
+            "!src/test/webapp/scripts/handlebar*.js",
+            "!src/main/webapp/scripts/libs/underscore.js"
+        ]
+    },
+    "outputLocations": {
+        "codeCoverageReports": "target/reports/coverage_reports"
+    }
 }
