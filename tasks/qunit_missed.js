@@ -110,8 +110,8 @@ module.exports = function(grunt) {
         setTableRows: function(accordion) {
             var fileTableRows = "";
             for (var key in accordion) {
-                var color = accordion[key] ? "high" : "low";
-                var value = color === "high" ? 50 : 1;
+                var color = accordion[key] ? "medium" : "low";
+                var value = color === "medium" ? 50 : 1;
                 var width = 100 - value;
 
                 var row = String.format(this.fileTD, color, key, key);
@@ -127,9 +127,14 @@ module.exports = function(grunt) {
 
             var options = this.options({
                 htmlReport: "",
+                htmlResultLocation: "",
                 htmlTemplate: "",
                 teamName: ""
             });
+
+            if (!options.htmlResultLocation || options.htmlResultLocation === "") {
+                options.htmlResultLocation = options.htmlReport;
+            }
 
             LoopHelper.generateCoveredFilesList(options.htmlReport);
             LoopHelper.setPaths(this.filesSrc);
@@ -157,7 +162,7 @@ module.exports = function(grunt) {
 
             grunt.verbose.debug("Contents of generated html report.");
             grunt.verbose.debug(HtmlReportHelper.htmlFile);
-            var outputHtmlFile = options.htmlReport + "/JS_CodeCoverage_files_missed_Report.html";
+            var outputHtmlFile = options.htmlResultLocation + "/JS_CodeCoverage_files_missed_Report.html";
             grunt.file.write(outputHtmlFile, HtmlReportHelper.htmlFile);
             grunt.log.writeln(">>\n>>\tReport Location: " + outputHtmlFile);
         }
