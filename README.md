@@ -1,6 +1,6 @@
 # grunt-qunit-missed
 
-This plugin produces a html report of files which have code coverage and those that do not. The html report color-codes the file green or red based on if it was hit during an Istanbul coverage pass.
+This plugin produces a html report of files which have code coverage and those that do not. The html report color-codes the file yellow or red based on if it was hit during an Istanbul coverage pass.
 The prerequisites for this plugin to function properly are that grunt-qunit-istanbul has been run and html reports have been generated.  This plugin will use that information to report files missed or have 0% coverage.
 
 ## Getting Started
@@ -51,7 +51,7 @@ Specify where the location of the Istanbul html reports.  This location is used 
 Type: `String`
 Default value: options.htmlReport
 
-Specify where the result html report should be placed.  The defalut location is the same directory given by the options.htmlReport.
+Specify where the result html report should be placed.  The default location is the same directory given by the options.htmlReport.
 
 #### options.teamName
 Type: `String`
