@@ -8,9 +8,17 @@
 
 'use strict';
 
-var pathLib = require("path");
-
 module.exports = function(grunt) {
+
+    var fileHelper = require("./libs/XMLReportHelper").init(grunt);
+
+    grunt.registerTask("fileHelper", 'read, pasrse ', function() {
+        grunt.log.writeln("inside and running fileHelper")
+        if(!fileHelper) {
+            grunt.log.writeln("fileHelper is not instantiated :(");
+        }
+        fileHelper.loadXmlDoc("test/reports/coverage_reports/clover.xml");
+    });
 
     // Please see the Grunt documentation for more information regarding task
     // creation: http://gruntjs.com/creating-tasks
@@ -24,107 +32,12 @@ module.exports = function(grunt) {
         };
     }
 
-    var DEFAULT_HTML_TEMPLATE = "node_modules/grunt-qunit-missed/html/Template_Missing_File_Report.html";
-
-    var LoopHelper = {
-        accordion: {},
-        paths: [],
-        hitFiles: [],
-        total: 0,
-        hit: 0,
-
-        setPaths: function(filesSrc){
-            grunt.verbose.debug("------  setPaths");
-            if(filesSrc === undefined || filesSrc.length === 0) {
-                grunt.log.error("qunit_missed:  filesSrc not set");
-            }
-            this.paths = filesSrc;
-            this.total = this.paths.length;
-        },
-
-        initAccordionMap: function() {
-            grunt.verbose.debug("------  initAccordionMap");
-            if(this.paths === undefined || this.paths.length === 0) {
-                grunt.verbose.debug("qunit_missed:  paths not set");
-                return;
-            }
-            for(var i = 0; i < this.paths.length; i++)
-            {
-                this.accordion[this.paths[i]] = false;
-            }
-        },
-
-        generateCoveredFilesList: function(outputLocation) {
-            grunt.verbose.debug("------  generateCoveredFilesList");
-            // generate list of files with coverage based on instanbul reports.
-            var configHit = [outputLocation + "/**/*.js.html"];
-            var hitFilesRaw = grunt.file.expand(configHit);
-            for(var j = 0; j < hitFilesRaw.length; j++)
-            {
-                var path = hitFilesRaw[j];
-                path = path.replace(".html", "");
-                path = pathLib.basename(path);
-                this.hitFiles.push(path);
-            }
-            this.hit = this.hitFiles.length;
-        },
-
-        checkFiles: function() {
-            grunt.verbose.writeln("\nFiles (true if we have some code coverage, false if 0% coverage:");
-            grunt.verbose.writeln("Hit:\tFile:");
-            for(var key in this.accordion){
-                for(var i = 0; i < this.hitFiles.length; i++){
-                    if(key.search(this.hitFiles[i]) > -1) {
-                        this.accordion[key] = true;
-                    }
-                }
-                grunt.verbose.writeln(this.accordion[key] + "\t" + key);
-            }
-        }
-    };
-
-    var HtmlReportHelper = {
-        htmlTemplate: "",
-        htmlFile: "",
-        teamName: "Not Set",
-        fileTD: "<tr>\n<td class=\"file {0}\" data-value=\"{1}\">{2}</td>\n",
-        graphTD: "<td data-value=\"{0}\" class=\"pic {1}\"><span class=\"cover-fill\" style=\"width: {2}px;\"></span><span class=\"cover-empty\" style=\"width:{3}px;\"></span></td>\n</tr>",
-
-        createTemplate: function() {
-            if(!this.htmlTemplate || this.htmlTemplate === "") {
-                grunt.verbose.writeln("HtmlReportHelper: htmlTemplate not set. Using default");
-                this.htmlTemplate = DEFAULT_HTML_TEMPLATE;
-            }
-            this.htmlFile = grunt.file.read(this.htmlTemplate);
-        },
-        setVariablesToTemplate: function(percent, total, hit){
-            this.htmlFile = this.htmlFile.replace("<!-- teamName -->", this.teamName);
-
-            var headerText = "{0}%  ( {1} of {2} have some coverage )";
-            var totalFileStats =  String.format(headerText, percent, hit, total);
-            this.htmlFile = this.htmlFile.replace("<!-- percentCovered -->", totalFileStats);
-
-            var headerColor = percent < 70 ? "low" : percent < 90 ? "medium" : "high";
-            this.htmlFile = this.htmlFile.replace("header UNSET", "header " + headerColor);
-        },
-        setTableRows: function(accordion) {
-            var fileTableRows = "";
-            for (var key in accordion) {
-                var color = accordion[key] ? "medium" : "low";
-                var value = color === "medium" ? 50 : 1;
-                var width = 100 - value;
-
-                var row = String.format(this.fileTD, color, key, key);
-                row = row + String.format(this.graphTD, value, color, value, width);
-
-                fileTableRows = fileTableRows + row;
-            }
-            this.htmlFile = this.htmlFile.replace("<!-- FileList -->", fileTableRows);
-        }
-    };
+    var HtmlReportHelper = require('./libs/HtmlReportHelper').init(grunt);
+    var Looper = require('./libs/Looper').init(grunt);
 
     grunt.registerMultiTask( 'qunit_missed', 'Generate report for JS files missed in code coverage', function() {
 
+            grunt.log.writeln("adding requires");
             var options = this.options({
                 htmlReport: "",
                 htmlResultLocation: "",
@@ -136,14 +49,21 @@ module.exports = function(grunt) {
                 options.htmlResultLocation = options.htmlReport;
             }
 
-            LoopHelper.generateCoveredFilesList(options.htmlReport);
-            LoopHelper.setPaths(this.filesSrc);
-            LoopHelper.initAccordionMap();
-            LoopHelper.checkFiles();
+            grunt.log.writeln("Looper:" + Looper.toString());
+            if(!Looper || !HtmlReportHelper) {
+                grunt.log.writeln("looper or html helper is not instantiated :(");
+            }
+            if(!Looper.generateCoveredFilesList || HtmlReportHelper.createTemplate) {
+                grunt.log.writeln("functions are not instantiated :(");
+            }
+            Looper.generateCoveredFilesList(options.htmlReport);
+            Looper.setPaths(this.filesSrc);
+            Looper.initAccordionMap();
+            Looper.checkFiles();
 
             // create report numbers
-            var total = LoopHelper.total;
-            var hit = LoopHelper.hit;
+            var total = Looper.total;
+            var hit = Looper.hit;
             var missed = total - hit;
             var percent = ((hit/total) * 100).toPrecision(4);
 
@@ -158,7 +78,7 @@ module.exports = function(grunt) {
             HtmlReportHelper.teamName = options.teamName;
             HtmlReportHelper.createTemplate();
             HtmlReportHelper.setVariablesToTemplate(percent, total, hit);
-            HtmlReportHelper.setTableRows(LoopHelper.accordion);
+            HtmlReportHelper.setTableRows(Looper.accordion);
 
             grunt.verbose.debug("Contents of generated html report.");
             grunt.verbose.debug(HtmlReportHelper.htmlFile);
