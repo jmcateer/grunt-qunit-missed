@@ -14,8 +14,7 @@ module.exports = function (grunt) {
         jshint: {
             all: [
                 'Gruntfile.js',
-                'tasks/*.js',
-                'libs/*.js',
+                'tasks/**/*.js',
                 '<%= nodeunit.tests %>'
             ],
             options: {

@@ -14,7 +14,7 @@ exports.init = function(grunt) {
     var TypeEnum = {
         CLOVER: 'clover',
         COBERTURA: 'cobertura'
-    }
+    };
 
     xmlHelper.loadXmlDoc = function (path) {
         grunt.verbose.writeln("+++ Call XMLReportHelper.loadXmlDoc");
@@ -31,7 +31,7 @@ exports.init = function(grunt) {
         });
 
         this.jsonObj = JSON.parse(data);
-        this.type = this.jsonObj.coverage.$.clover == undefined ? TypeEnum.COBERTURA : TypeEnum.CLOVER;
+        this.type = this.jsonObj.coverage.$.clover === undefined ? TypeEnum.COBERTURA : TypeEnum.CLOVER;
     };
 
     xmlHelper.getFileNames = function () {
@@ -39,10 +39,10 @@ exports.init = function(grunt) {
         grunt.verbose.debug("report type: " + this.type);
         this.fileNames = [];
 
-        if(this.jsonObj == "") {
+        if(this.jsonObj === "") {
             grunt.log.writeln("Xml file has not been loaded.  Unable to get file names.");
-            grunt.log.writeln("returning empty array.");
-            return fileList;
+            grunt.log.writeln("returning null.");
+            return null;
         }
 
         if(this.type === TypeEnum.COBERTURA ) {
@@ -57,20 +57,20 @@ exports.init = function(grunt) {
 
     xmlHelper.getCodeCoverageOnHitFiles = function() {
         var covPercent = 0.0;
-        if(this.jsonObj == "") {
+        if(this.jsonObj === "") {
             grunt.log.writeln("Xml file has not been loaded.  Unable to get file names.");
-            grunt.log.writeln("returning empty array.");
-            return fileList;
+            grunt.log.writeln("returning null.");
+            return null;
         }
 
         if(this.type === TypeEnum.COBERTURA ) {
-            var metrics = this.jsonObj.coverage.$;
-            covPercent = metrics['line-rate'];
+            var metricsCO = this.jsonObj.coverage.$;
+            covPercent = metricsCO['line-rate'];
         }
         else if (this.type === TypeEnum.CLOVER) {
-            var metrics = this.jsonObj.coverage.project[0].metrics[0].$;
-            var statements = metrics.statements;
-            var coveredstatements = metrics.coveredstatements;
+            var metricsCL = this.jsonObj.coverage.project[0].metrics[0].$;
+            var statements = metricsCL.statements;
+            var coveredstatements = metricsCL.coveredstatements;
             covPercent = (coveredstatements / statements).toPrecision(4);
         }
         return covPercent;

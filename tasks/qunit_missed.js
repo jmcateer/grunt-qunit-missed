@@ -44,19 +44,19 @@ module.exports = function(grunt) {
             var total = Looper.total;
             var hit = Looper.hit;
             var missed = total - hit;
-            var percent = ((hit/total) * 100).toPrecision(4);
+            var percentHit = ((hit/total) * 100).toPrecision(4);
 
             grunt.log.writeln("\n>> JS File Coverage:");
             grunt.log.writeln(">>\tTotal Files: " + total);
             grunt.log.writeln(">>\tHit: " + hit);
             grunt.log.writeln(">>\tMissed: " + missed);
-            grunt.log.writeln(">>\tPercent: " + percent + "%\n");
+            grunt.log.writeln(">>\tPercent: " + percentHit + "%\n");
 
             // generate html
             htmlReportCreator.htmlTemplate = options.htmlTemplate;
             htmlReportCreator.teamName = options.teamName;
             htmlReportCreator.createTemplate();
-            htmlReportCreator.setVariablesToTemplate(percent, total, hit, covPercent);
+            htmlReportCreator.setVariablesToTemplate(percentHit, total, hit, covPercent);
             htmlReportCreator.setTableRows(Looper.accordion);
 
             var outputHtmlFile = options.htmlResultOutputLocation + "/JS_CodeCoverage_files_missed_Report.html";

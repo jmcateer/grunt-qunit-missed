@@ -1,7 +1,7 @@
 {
     "name": "grunt-qunit-missed",
     "description": "Grunt plugin to assist Instanbul code coverage for missed files.",
-    "version": "0.1.18",
+    "version": "0.1.20",
     "homepage": "https://github.com/Jeremy/grunt-qunit-missed",
     "author": {
         "name": "Jeremy McAteer",
@@ -19,14 +19,10 @@
         "grunt": "~0.4.5",
         "xml2js": "^0.4.8"
     },
-    "peerDependencies": {
-        "grunt": "~0.4.5",
-        "xml2js": "^0.4.8"
-    },
     "keywords": [
         "gruntplugin"
     ],
     "files": [
-        "libs"
+        "tasks"
     ]
 }

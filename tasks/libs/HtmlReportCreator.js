@@ -18,7 +18,7 @@ exports.init = function(grunt) {
         if (!this.htmlTemplate || this.htmlTemplate === "") {
 
             var cwd = path.resolve();
-            var checkModulesPath = cwd + "/node_modules/qunit_missed/";
+            var checkModulesPath = cwd + "/node_modules/grunt-qunit-missed/";
             var checkPluginPath = cwd + "/";
 
             if(grunt.file.isDir(checkModulesPath)) {
@@ -31,19 +31,19 @@ exports.init = function(grunt) {
         this.htmlFile = grunt.file.read(this.htmlTemplate);
     };
 
-    reportCreator.setVariablesToTemplate = function (percent, total, hit, covPercent) {
+    reportCreator.setVariablesToTemplate = function (percentHit, total, hit, covPercent) {
         this.htmlFile = this.htmlFile.replace("<!-- teamName -->", this.teamName);
 
         var headerText = "{0}% ";
         var totalFileStats = String.format(headerText, covPercent, hit, total);
         this.htmlFile = this.htmlFile.replace("<!-- percentCovered -->", totalFileStats);
 
-        var withZeroText = "{0} of {1} ({2}% missed)";
+        var withZeroText = "{0} of {1} ({2}% hit)";
         var missed = total - hit;
-        var totalWtihZeroStats = String.format(withZeroText, missed, total, percent);
+        var totalWtihZeroStats = String.format(withZeroText, missed, total, percentHit);
         this.htmlFile = this.htmlFile.replace("<!-- withZero -->", totalWtihZeroStats);
 
-        var headerColor = percent < 70 ? "low" : percent < 90 ? "medium" : "high";
+        var headerColor = percentHit < 60 ? "low" : percentHit < 90 ? "medium" : "high";
         this.htmlFile = this.htmlFile.replace("header UNSET", "header " + headerColor);
     };
 

@@ -54,13 +54,11 @@ exports.init = function(grunt) {
     };
 
     looper.getCodeCoverageOfHitFiles = function() {
+        grunt.log.writeln("getCodeCoverageOfHitFiles");
         var isFile = grunt.file.isFile(this.reportSource);
         var covPercent = 0.0;
         if(isFile) {
             covPercent = xmlHelper.getCodeCoverageOnHitFiles();
-        }
-        else {
-
         }
         return covPercent;
     };

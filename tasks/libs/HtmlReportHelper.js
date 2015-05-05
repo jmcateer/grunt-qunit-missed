@@ -13,7 +13,7 @@ exports.init = function(grunt) {
         this.location = path;
     };
 
-    htmlHelper.getFileNames = function (outputLocation) {
+    htmlHelper.getFileNames = function () {
         // generate list of files with coverage based on instanbul html reports.
 
         var configHit = [this.location + "/**/*.js.html"];
