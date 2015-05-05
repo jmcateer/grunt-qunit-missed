@@ -41,17 +41,17 @@ grunt.initConfig({
 
 ### Options
 
-#### options.htmlReport
+#### options.coverageSourceLocation
 Type: `String`
 No Default value
 
-Specify where the location of the Istanbul html reports.  This location is used to find files with coverage as well as output location.
+Specify where the location of the Istanbul xml or html reports.  This can be a clover.xml, cobertura.xml or location of *.js.hmtl files.
 
-#### options.htmlResultLocation
+#### options.htmlResultOutputLocation
 Type: `String`
-Default value: options.htmlReport
+Default value: empty string
 
-Specify where the result html report should be placed.  The default location is the same directory given by the options.htmlReport.
+Specify where the result html report should be placed.  If left empty, the current working directory will be used.
 
 #### options.teamName
 Type: `String`
@@ -61,7 +61,7 @@ Specify a name to be displayed at the head of the report.
 
 #### options.htmlTemplate
 Type `String`
-Default value: `node_modules/grunt-qunit-missed/html/Template_Missing_File_Report.html`
+Default value: `node_modules/grunt-qunit-missed/tasks/html/Template_Missing_File_Report.html`
 
 Specify a templated file for the output of the results.
 
