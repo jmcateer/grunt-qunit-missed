@@ -65,13 +65,13 @@ exports.init = function(grunt) {
 
         if(this.type === TypeEnum.COBERTURA ) {
             var metricsCO = this.jsonObj.coverage.$;
-            covPercent = metricsCO['line-rate'];
+            covPercent = parseFloat(metricsCO['line-rate']);
         }
         else if (this.type === TypeEnum.CLOVER) {
             var metricsCL = this.jsonObj.coverage.project[0].metrics[0].$;
-            var statements = metricsCL.statements;
-            var coveredstatements = metricsCL.coveredstatements;
-            covPercent = (coveredstatements / statements).toPrecision(4);
+            var statements = parseFloat(metricsCL.statements);
+            var coveredstatements = parseFloat(metricsCL.coveredstatements);
+            covPercent = (coveredstatements / statements);
         }
         return covPercent;
     };

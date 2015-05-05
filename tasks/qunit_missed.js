@@ -40,7 +40,7 @@ module.exports = function(grunt) {
             Looper.checkFiles();
 
             // create report numbers
-            var covPercent = Looper.getCodeCoverageOfHitFiles() * 100;
+            var covPercent = (Looper.getCodeCoverageOfHitFiles() * 100).toPrecision(4);
             var total = Looper.total;
             var hit = Looper.hit;
             var missed = total - hit;

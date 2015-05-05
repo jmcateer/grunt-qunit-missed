@@ -29,9 +29,8 @@ module.exports = function (grunt) {
         },
         qunit_missed: {
             options: {
-                coverageSourceLocation: "test/reports/coverage_reports/cobertura-coverage.xml", //clover.xml", //
+                coverageSourceLocation: "test/reports/coverage_reports/clover.xml", //cobertura-coverage.xml", //
                 htmlResultOutputLocation: "tmp/results",
-                //htmlTemplate: "tasks/html/Template_Missing_File_Report.html",
                 teamName: "Team Grunt QUnit Missed"
             },
             all: {
