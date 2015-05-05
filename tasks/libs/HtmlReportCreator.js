@@ -34,7 +34,7 @@ exports.init = function(grunt) {
     reportCreator.setVariablesToTemplate = function (percent, total, hit, covPercent) {
         this.htmlFile = this.htmlFile.replace("<!-- teamName -->", this.teamName);
 
-        var headerText = "{0}% ";// ( {1} of {2} )";
+        var headerText = "{0}% ";
         var totalFileStats = String.format(headerText, covPercent, hit, total);
         this.htmlFile = this.htmlFile.replace("<!-- percentCovered -->", totalFileStats);
 
