@@ -30,9 +30,9 @@ module.exports = function (grunt) {
         },
         qunit_missed: {
             options: {
-                htmlReport: "test/reports/coverage_reports",
-                htmlResultLocation: "tmp/results",
-                htmlTemplate: "html/Template_Missing_File_Report.html",
+                coverageSourceLocation: "test/reports/coverage_reports/cobertura-coverage.xml", //clover.xml", //
+                htmlResultOutputLocation: "tmp/results",
+                //htmlTemplate: "tasks/html/Template_Missing_File_Report.html",
                 teamName: "Team Grunt QUnit Missed"
             },
             all: {

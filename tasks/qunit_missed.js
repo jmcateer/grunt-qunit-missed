@@ -10,16 +10,6 @@
 
 module.exports = function(grunt) {
 
-    var fileHelper = require("./libs/XMLReportHelper").init(grunt);
-
-    grunt.registerTask("fileHelper", 'read, pasrse ', function() {
-        grunt.log.writeln("inside and running fileHelper")
-        if(!fileHelper) {
-            grunt.log.writeln("fileHelper is not instantiated :(");
-        }
-        fileHelper.loadXmlDoc("test/reports/coverage_reports/clover.xml");
-    });
-
     // Please see the Grunt documentation for more information regarding task
     // creation: http://gruntjs.com/creating-tasks
 
@@ -32,36 +22,25 @@ module.exports = function(grunt) {
         };
     }
 
-    var HtmlReportHelper = require('./libs/HtmlReportHelper').init(grunt);
+    var htmlReportCreator = require('./libs/HtmlReportCreator').init(grunt);
     var Looper = require('./libs/Looper').init(grunt);
 
     grunt.registerMultiTask( 'qunit_missed', 'Generate report for JS files missed in code coverage', function() {
 
-            grunt.log.writeln("adding requires");
             var options = this.options({
-                htmlReport: "",
-                htmlResultLocation: "",
+                coverageSourceLocation: "",
+                htmlResultOutputLocation: "",
                 htmlTemplate: "",
                 teamName: ""
             });
 
-            if (!options.htmlResultLocation || options.htmlResultLocation === "") {
-                options.htmlResultLocation = options.htmlReport;
-            }
-
-            grunt.log.writeln("Looper:" + Looper.toString());
-            if(!Looper || !HtmlReportHelper) {
-                grunt.log.writeln("looper or html helper is not instantiated :(");
-            }
-            if(!Looper.generateCoveredFilesList || HtmlReportHelper.createTemplate) {
-                grunt.log.writeln("functions are not instantiated :(");
-            }
-            Looper.generateCoveredFilesList(options.htmlReport);
+            Looper.generateCoveredFilesList(options.coverageSourceLocation);
             Looper.setPaths(this.filesSrc);
             Looper.initAccordionMap();
             Looper.checkFiles();
 
             // create report numbers
+            var covPercent = Looper.getCodeCoverageOfHitFiles() * 100;
             var total = Looper.total;
             var hit = Looper.hit;
             var missed = total - hit;
@@ -71,20 +50,18 @@ module.exports = function(grunt) {
             grunt.log.writeln(">>\tTotal Files: " + total);
             grunt.log.writeln(">>\tHit: " + hit);
             grunt.log.writeln(">>\tMissed: " + missed);
-            grunt.log.writeln(">>\tPercent: " + percent + "%");
+            grunt.log.writeln(">>\tPercent: " + percent + "%\n");
 
             // generate html
-            HtmlReportHelper.htmlTemplate = options.htmlTemplate;
-            HtmlReportHelper.teamName = options.teamName;
-            HtmlReportHelper.createTemplate();
-            HtmlReportHelper.setVariablesToTemplate(percent, total, hit);
-            HtmlReportHelper.setTableRows(Looper.accordion);
+            htmlReportCreator.htmlTemplate = options.htmlTemplate;
+            htmlReportCreator.teamName = options.teamName;
+            htmlReportCreator.createTemplate();
+            htmlReportCreator.setVariablesToTemplate(percent, total, hit, covPercent);
+            htmlReportCreator.setTableRows(Looper.accordion);
 
-            grunt.verbose.debug("Contents of generated html report.");
-            grunt.verbose.debug(HtmlReportHelper.htmlFile);
-            var outputHtmlFile = options.htmlResultLocation + "/JS_CodeCoverage_files_missed_Report.html";
-            grunt.file.write(outputHtmlFile, HtmlReportHelper.htmlFile);
-            grunt.log.writeln(">>\n>>\tReport Location: " + outputHtmlFile);
+            var outputHtmlFile = options.htmlResultOutputLocation + "/JS_CodeCoverage_files_missed_Report.html";
+            grunt.file.write(outputHtmlFile, htmlReportCreator.htmlFile);
+            grunt.log.writeln(">>\tReport Location: " + outputHtmlFile);
         }
     );
 };
