@@ -3,7 +3,7 @@
 exports.init = function(grunt) {
 
     var xmlHelper = require("./XMLReportHelper").init(grunt);
-    var htmlHelper = require("./HTMLReportHelper").init(grunt);
+    var htmlHelper = require("./HtmlReportHelper").init(grunt);
     var pathLib = require("path");
 
     var looper = {
