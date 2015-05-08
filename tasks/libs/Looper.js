@@ -44,6 +44,7 @@ exports.init = function(grunt) {
             grunt.verbose.debug("File passed in.  Treating as clover / cobertura xml report");
             xmlHelper.loadXmlDoc(reportSourcePath);
             this.hitFiles = xmlHelper.getFileNames();
+            this.coverageOnHitFiles = xmlHelper.getCodeCoverageOnHitFiles();
         }
         else {
             grunt.verbose.debug("Directory passed in.  Treating as a directory for *.js.html files");
@@ -51,15 +52,6 @@ exports.init = function(grunt) {
             this.hitFiles = htmlHelper.getFileNames();
         }
         this.hit = this.hitFiles.length;
-    };
-
-    looper.getCodeCoverageOfHitFiles = function() {
-        var isFile = grunt.file.isFile(this.reportSource);
-        var covPercent = 0.0;
-        if(isFile) {
-            covPercent = xmlHelper.getCodeCoverageOnHitFiles();
-        }
-        return covPercent;
     };
 
     looper.checkFiles = function() {

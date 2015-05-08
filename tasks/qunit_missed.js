@@ -40,17 +40,30 @@ module.exports = function(grunt) {
             Looper.checkFiles();
 
             // create report numbers
-            var covPercent = (Looper.getCodeCoverageOfHitFiles() * 100).toPrecision(4);
+            var covPercent = (Looper.coverageOnHitFiles * 100).toPrecision(4);
             var total = Looper.total;
             var hit = Looper.hit;
             var missed = total - hit;
             var percentHit = ((hit/total) * 100).toPrecision(4);
+            var percentMissed = ((missed/total) * 100).toPrecision(4);
 
             grunt.log.writeln("\n>> JS File Coverage:");
             grunt.log.writeln(">>\tTotal Files: " + total);
             grunt.log.writeln(">>\tHit: " + hit);
             grunt.log.writeln(">>\tMissed: " + missed);
             grunt.log.writeln(">>\tPercent: " + percentHit + "%\n");
+
+            // print full summary with code coverage numbers
+            var consoleSummaryTemplate = "qunitSummary: Coverage: {0}% on {1} files. Missed {2} / {3}. **";
+            var consoleSummary = String.format(consoleSummaryTemplate, covPercent, hit, missed, total, percentMissed);
+            grunt.log.writeln(consoleSummary);
+            grunt.log.writeln("qunitCodecoverage-Line:" + covPercent + "%");
+            grunt.log.writeln("qunitCodecoverage-TotalFiles:" + total);
+            grunt.log.writeln("qunitCodecoverage-Hit:" + hit);
+            grunt.log.writeln("qunitCodecoverage-Missed:" + missed);
+            grunt.log.writeln("qunitCodecoverage-MissedPercent:" + percentMissed + "%");
+
+
 
             // generate html
             htmlReportCreator.htmlTemplate = options.htmlTemplate;
