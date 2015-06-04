@@ -56,14 +56,14 @@ module.exports = function(grunt) {
             // print full summary with code coverage numbers
             var consoleSummaryTemplate = "qunitSummary: Coverage: {0}% on {1} files. Missed {2} / {3}. **";
             var consoleSummary = String.format(consoleSummaryTemplate, covPercent, hit, missed, total, percentMissed);
-            grunt.log.writeln(consoleSummary);
-            grunt.log.writeln("qunitCodecoverage-Line:" + covPercent + "%");
-            grunt.log.writeln("qunitCodecoverage-TotalFiles:" + total);
-            grunt.log.writeln("qunitCodecoverage-Hit:" + hit);
-            grunt.log.writeln("qunitCodecoverage-Missed:" + missed);
-            grunt.log.writeln("qunitCodecoverage-MissedPercent:" + percentMissed + "%");
+            var teamSuffix = (options.teamName === "") ? "" : String.format("{0}: ", options.teamName);
 
-
+            grunt.log.writeln(teamSuffix + consoleSummary);
+            grunt.log.writeln(teamSuffix + "qunitCodecoverage-Line:" + covPercent + "%");
+            grunt.log.writeln(teamSuffix + "qunitCodecoverage-TotalFiles:" + total);
+            grunt.log.writeln(teamSuffix + "qunitCodecoverage-Hit:" + hit);
+            grunt.log.writeln(teamSuffix + "qunitCodecoverage-Missed:" + missed);
+            grunt.log.writeln(teamSuffix + "qunitCodecoverage-MissedPercent:" + percentMissed + "%");
 
             // generate html
             htmlReportCreator.htmlTemplate = options.htmlTemplate;
