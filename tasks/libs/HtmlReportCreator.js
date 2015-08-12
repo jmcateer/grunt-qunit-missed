@@ -39,8 +39,7 @@ exports.init = function(grunt) {
         this.htmlFile = this.htmlFile.replace("<!-- percentCovered -->", totalFileStats);
 
         var withZeroText = "{0} of {1} ({2}% hit)";
-        var missed = total - hit;
-        var totalWtihZeroStats = String.format(withZeroText, missed, total, percentHit);
+        var totalWtihZeroStats = String.format(withZeroText, hit, total, percentHit);
         this.htmlFile = this.htmlFile.replace("<!-- withZero -->", totalWtihZeroStats);
 
         var headerColor = percentHit < 60 ? "low" : percentHit < 90 ? "medium" : "high";

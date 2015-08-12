@@ -64,6 +64,7 @@ module.exports = function(grunt) {
             grunt.log.writeln(teamSuffix + "qunitCodecoverage-Hit:" + hit);
             grunt.log.writeln(teamSuffix + "qunitCodecoverage-Missed:" + missed);
             grunt.log.writeln(teamSuffix + "qunitCodecoverage-MissedPercent:" + percentMissed + "%");
+            grunt.log.writeln(teamSuffix + "qunitCodecoverage-HitPercent:" + percentHit + "%");
 
             // generate html
             htmlReportCreator.htmlTemplate = options.htmlTemplate;
