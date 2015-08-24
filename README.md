@@ -60,10 +60,17 @@ Default value: empty string
 Specify a name to be displayed at the head of the report.
 
 #### options.htmlTemplate
-Type `String`
+Type: `String`
 Default value: `node_modules/grunt-qunit-missed/tasks/html/Template_Missing_File_Report.html`
 
 Specify a templated file for the output of the results.
+
+#### options.threshold
+Type: `number` [optional]
+Default value: 0
+
+Specify the percentage threshold to evaluate when running the build. If
+the actual file coverage percentage is less than this value, the build will fail.
 
 ### all
 

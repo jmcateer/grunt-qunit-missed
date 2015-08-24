@@ -22,6 +22,7 @@ module.exports = function(grunt) {
         };
     }
 
+
     var htmlReportCreator = require('./libs/HtmlReportCreator').init(grunt);
     var Looper = require('./libs/Looper').init(grunt);
 
@@ -31,8 +32,22 @@ module.exports = function(grunt) {
                 coverageSourceLocation: "",
                 htmlResultOutputLocation: "",
                 htmlTemplate: "",
-                teamName: ""
+                teamName: "",
+                threshold: 0,
+                force: false
             });
+            var checkFileCoverage = function(threshold, value, printName) {
+                if (threshold && value < threshold) {
+                    grunt.log.writeln();
+                    var message = 'File coverage for ' + printName + ' was below threshold (' + value + '% < ' + threshold + '%)';
+                    if (options && options.force) {
+                        grunt.log.error(message);
+                    } else {
+
+                        grunt.warn(message);
+                    }
+                }
+            };
 
             Looper.generateCoveredFilesList(options.coverageSourceLocation);
             Looper.setPaths(this.filesSrc);
@@ -76,6 +91,8 @@ module.exports = function(grunt) {
             var outputHtmlFile = options.htmlResultOutputLocation + "/JS_CodeCoverage_files_missed_Report.html";
             grunt.file.write(outputHtmlFile, htmlReportCreator.htmlFile);
             grunt.log.writeln(">>\tReport Location: " + outputHtmlFile);
+
+            checkFileCoverage(options.threshold, percentHit, options.teamName);
         }
     );
 };

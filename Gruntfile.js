@@ -31,7 +31,8 @@ module.exports = function (grunt) {
             options: {
                 coverageSourceLocation: "test/reports/coverage_reports/clover.xml", //cobertura-coverage.xml", //
                 htmlResultOutputLocation: "tmp/results",
-                teamName: "Team Grunt QUnit Missed"
+                teamName: "Team Grunt QUnit Missed",
+                force: false
             },
             all: {
                 src: [
