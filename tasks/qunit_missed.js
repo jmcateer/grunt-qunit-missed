@@ -37,15 +37,13 @@ module.exports = function(grunt) {
                 force: false
             });
             var checkFileCoverage = function(threshold, value, printName) {
-                if (threshold && value < threshold) {
+                if (value < threshold) {
                     grunt.log.writeln();
                     var message = 'File coverage for ' + printName + ' was below threshold (' + value + '% < ' + threshold + '%)';
                     if (options && options.force) {
-                        if (options && options.force) {
-                            grunt.log.error(message + "\nOnly a message was logged due to the force flag is set to true.");
-                        } else {
-                            grunt.fail.warn(message);
-                        }
+                        grunt.log.error(message + "\nOnly a message was logged due to the force flag is set to true.");
+                    } else {
+                        grunt.fail.warn(message);
                     }
                 }
             };
